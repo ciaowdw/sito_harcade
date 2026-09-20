@@ -1,0 +1,97 @@
+/* Collegamento automatico da integrare caricando style.css */
+@import url("buttons-tables.css");
+
+.btn-card {
+    background: #2a2a40;
+    border: 2px solid transparent;
+    color: white;
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.pokemon-btn:hover { background: #ffcb05; color: #3b4cca; border-color: #3b4cca; box-shadow: 0 0 15px #ffcb05; }
+.minecraft-btn:hover { background: #4a7227; color: white; border-color: #866043; box-shadow: 0 0 15px #4a7227; }
+.anime-btn:hover { background: #ff6b6b; color: white; border-color: #c92a2a; box-shadow: 0 0 15px #ff6b6b; }
+.sport-btn:hover { background: #339af0; color: white; border-color: #1c7ed6; box-shadow: 0 0 15px #339af0; }
+.beyblade-btn:hover { background: #fcc419; color: #10111a; border-color: #e67e22; box-shadow: 0 0 15px #fcc419; }
+.game-btn { background: #1f3333; border: 2px dashed #00f0ff; color: #00f0ff; }
+.game-btn:hover { background: #00f0ff; color: #111119; box-shadow: 0 0 15px #00f0ff; }
+.pro-btn { background: #332211; border: 2px solid #ffaa00; color: #ffaa00; }
+.pro-btn:hover { background: #ffaa00; color: #111119; box-shadow: 0 0 15px #ffaa00; }
+
+/* Griglia Medaglioni */
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+}
+.badge-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.25;
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+}
+.badge-box.unlocked {
+    opacity: 1;
+    filter: grayscale(0%);
+    border-color: #ffaa00;
+    background: rgba(255, 170, 0, 0.05);
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.15);
+}
+.badge-icon { font-size: 2rem; }
+.badge-name { font-weight: bold; font-size: 0.9rem; color: #fff; }
+.badge-desc { font-size: 0.75rem; color: #aaa; text-align: center; }
+
+/* Registro Obiettivi Reali */
+.table-scroll {
+    overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 240, 255, 0.15);
+}
+.objectives-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 0.9rem;
+    text-align: left;
+}
+.objectives-table th {
+    background: #1f1f38;
+    color: #00f0ff;
+    padding: 10px 12px;
+    font-weight: bold;
+    border-bottom: 2px solid rgba(0, 240, 255, 0.2);
+}
+.objectives-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+.objectives-table tr:last-child td { border-bottom: none; }
+.obj-name { font-weight: bold; color: #fff; }
+.obj-reward { color: #ffaa00; font-weight: bold; text-align: right; }
+
+.completed-row td {
+    text-decoration: line-through;
+    opacity: 0.4;
+    background: rgba(0, 240, 255, 0.02);
+}
+.completed-row td.obj-reward { text-decoration: none !important; }

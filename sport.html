@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Sport - Gaming Hub</title>
+    <!-- Collegamento allo stile comune dell'hub -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sport-style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>⚽ Quiz Sport Master ⚽</h2>
+        <p id="quiz-progress">Domanda 1 di 15</p>
+
+        <!-- Contenitore Domande attive -->
+        <div class="quiz-box" id="quiz-screen">
+            <div class="question-text" id="question">Caricamento domanda...</div>
+            <div class="options-list" id="options"></div>
+        </div>
+
+        <!-- Schermata di Fine Quiz -->
+        <div class="result-box" id="result-screen">
+            <h3 id="result-title" style="color: #ffaa00; font-size: 1.8rem; margin-bottom: 10px;">Quiz Terminato!</h3>
+            <p id="result-score" style="font-size: 1.2rem; color: #fff;"></p>
+            <p id="result-reward" style="color: #00f0ff; font-weight: bold; margin-top: 10px;"></p>
+            <button class="btn-card game-btn" onclick="location.reload()" style="width: 100%; margin-top: 20px; justify-content: center;">🔄 Riprova il Quiz</button>
+        </div>
+
+        <a href="index.html" class="back-link">⬅ Torna al Menu Principale</a>
+    </div>
+
+    <!-- Collegamento allo script logico JS -->
+    <script src="sport-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Arcade - Gaming Hub</title>
+    <!-- Collegamento sia allo stile comune dell'hub che a quello specifico di snake -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="snake-style.css">
+</head>
+<body>
+    <div class="container" style="max-width: 440px; padding: 25px 20px;">
+        <h2>🐍 Cyber Snake Arcade 🐍</h2>
+        <p style="margin-bottom: 15px;">Raggiungi 500 punti per sbloccare l'obiettivo.</p>
+
+        <div class="score-bar">
+            <span>Punti: <span id="current-score" style="color: #fff;">0</span></span>
+            <span>Record: <span id="best-score" style="color: #00f0ff;">0</span></span>
+        </div>
+        
+        <div class="score-bar" style="margin-top: -5px; margin-bottom: 15px;">
+            <span>💰 Monete: <span id="coin-wallet" style="color: #ffaa00;">0</span></span>
+        </div>
+
+        <div class="game-wrapper">
+            <!-- Schermata di Avvio, Game Over e Sblocco -->
+            <div class="overlay-screen" id="menu-overlay">
+                <h3 id="overlay-title" style="color: #00f0ff; font-size: 1.8rem; margin-bottom: 10px;">PRONTO ALLA SFIDA?</h3>
+                <p id="overlay-text" style="font-size: 0.95rem; color: #b3b3b3; margin-bottom: 20px; padding: 0 20px; text-align: center;">
+                    Usa le Frecce/WASD su PC o i pulsanti a schermo su Smartphone.
+                </p>
+                <button class="btn-card game-btn" id="action-btn" style="padding: 12px 40px; justify-content: center; min-width: 180px;">🎮 INIZIA GIOCO</button>
+            </div>
+            
+            <canvas id="snakeCanvas" width="360" height="360"></canvas>
+        </div>
+
+        <!-- Tastierino Direzionale Distanziato e Ingrandito per Smartphone -->
+        <div class="mobile-controls">
+            <div class="empty-space"></div>
+            <div class="touch-btn" id="btn-up">▲</div>
+            <div class="empty-space"></div>
+            <div class="touch-btn" id="btn-left">◀</div>
+            <div class="empty-space"></div>
+            <div class="touch-btn" id="btn-right">▶</div>
+            <div class="empty-space"></div>
+            <div class="touch-btn" id="btn-down">▼</div>
+            <div class="empty-space"></div>
+        </div>
+
+        <!-- NEGOZIO DI SKIN INTEGRATO CON LE NUOVE SKIN -->
+        <div class="shop-section">
+            <div class="shop-title">🛒 NEGOZIO SKIN</div>
+            <div class="shop-grid">
+                <!-- Skin 1 -->
+                <div class="skin-card">
+                    <div class="skin-name">Default</div>
+                    <div class="skin-preview" style="background: linear-gradient(#00f0ff, #00b4cc);"></div>
+                    <div class="skin-price">Gratis</div>
+                    <button class="shop-btn active" id="btn-skin-default" onclick="selezionaSkin('default')">Usa</button>
+                </div>
+                <!-- Skin 2 -->
+                <div class="skin-card">
+                    <div class="skin-name">Neon Pink</div>
+                    <div class="skin-preview" style="background: linear-gradient(#ff007f, #ff55a3);"></div>
+                    <div class="skin-price">100 Monete</div>
+                    <button class="shop-btn" id="btn-skin-pink" onclick="compraSkin('pink', 100)">Compra</button>
+                </div>
+                <!-- Skin 3 -->
+                <div class="skin-card">
+                    <div class="skin-name">Toxic Green</div>
+                    <div class="skin-preview" style="background: linear-gradient(#39ff14, #20b90c);"></div>
+                    <div class="skin-price">250 Monete</div>
+                    <button class="shop-btn" id="btn-skin-green" onclick="compraSkin('green', 250)">Compra</button>
+                </div>
+                <!-- Skin 4 -->
+                <div class="skin-card">
+                    <div class="skin-name">Cyber Glitch</div>
+                    <div class="skin-preview" style="background: linear-gradient(#9400d3, #ff00ff); box-shadow: 0 0 10px #9400d3;"></div>
+                    <div class="skin-price">350 Monete</div>
+                    <button class="shop-btn" id="btn-skin-glitch" onclick="compraSkin('glitch', 350)">Compra</button>
+                </div>
+                <!-- Skin 5 -->
+                <div class="skin-card">
+                    <div class="skin-name">Gold Hacker</div>
+                    <div class="skin-preview" style="background: linear-gradient(#ffd700, #cc9900); box-shadow: 0 0 10px #ffd700;"></div>
+                    <div class="skin-price">500 Monete</div>
+                    <button class="shop-btn" id="btn-skin-gold" onclick="compraSkin('gold', 500)">Compra</button>
+                </div>
+                <!-- Skin 6 -->
+                <div class="skin-card" style="grid-column: span 2;">
+                    <div class="skin-name">Rainbow Multi</div>
+                    <div class="skin-preview" style="background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff); width: 80%; box-shadow: 0 0 12px #ff007f;"></div>
+                    <div class="skin-price">750 Monete (Multicolor + Scia)</div>
+                    <button class="shop-btn" id="btn-skin-rainbow" onclick="compraSkin('rainbow', 750)">Compra</button>
+                </div>
+            </div>
+            <div class="shop-error" id="shop-error-msg"></div>
+        </div>
+
+        <a href="index.html" class="back-link">⬅ Torna al Menu Principale</a>
+    </div>
+
+    <!-- Sincronizzazione con il file logico JS -->
+    <script src="snake-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aim Trainer - Pro Player Challenge</title>
+    <!-- Collegamento allo stile comune dell'hub -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .game-area {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            background: #0d0d13;
+            border: 2px solid rgba(0, 240, 255, 0.2);
+            border-radius: 12px;
+            margin: 20px 0;
+            overflow: hidden;
+            cursor: crosshair;
+            user-select: none;
+        }
+
+        /* Stile del bersaglio cyberpunk */
+        .target {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff007f 20%, transparent 25%, #ff007f 40%, transparent 45%, #00f0ff 80%);
+            box-shadow: 0 0 15px #ff007f, inset 0 0 10px #00f0ff;
+            cursor: pointer;
+            transform: scale(0);
+            animation: spawnTarget 1.2s linear forwards;
+        }
+
+        @keyframes spawnTarget {
+            0% { transform: scale(0); opacity: 0; }
+            15% { transform: scale(1.1); opacity: 1; }
+            30% { transform: scale(1); }
+            85% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .stat-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffaa00;
+            margin-bottom: 10px;
+        }
+
+        .start-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(17, 17, 25, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border-radius: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .back-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎯 Aim Trainer Challenge 🎯</h2>
+        <p>Colpisci i bersagli neon prima che svaniscano nel nulla!</p>
+
+        <div class="game-area" id="game-area">
+            <!-- Schermata iniziale di avvio -->
+            <div class="start-overlay" id="start-overlay">
+                <h3 style="color: #00f0ff; margin-bottom: 15px;">Pronto alla Sfida?</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 20px; max-width: 80%;">Dovrai colpire i 30 bersagli che appariranno consecutivamente a schermo per sbloccare la ricompensa.</p>
+                <button class="btn-card pro-btn" id="start-btn" style="padding: 12px 30px;">INIZIA TEST</button>
+            </div>
+        </div>
+
+        <div class="stat-bar">
+            <span>Bersagli: <span id="target-count" style="color: #fff;">0 / 30</span></span>
+            <span>Colpiti: <span id="hit-count" style="color: #ff007f;">0</span></span>
+        </div>
+
+        <a href="index.html" class="back-link">⬅ Torna al Menu Principale</a>
+    </div>
+
+    <script>
+        const gameArea = document.getElementById('game-area');
+        const startOverlay = document.getElementById('start-overlay');
+        const startBtn = document.getElementById('start-btn');
+        const targetCountEl = document.getElementById('target-count');
+        const hitCountEl = document.getElementById('hit-count');
+
+        let score = 0;
+        let totalTargetsSpawned = 0;
+        let gameInterval = null;
+        let activeTargetTimeout = null;
+        const maxTargets = 30;
+        const spawnSpeed = 900; // Tempo in millisecondi tra un bersaglio e l'altro
+
+        startBtn.addEventListener('click', startGame);
+
+        function startGame() {
+            startOverlay.style.display = 'none';
+            score = 0;
+            totalTargetsSpawned = 0;
+            hitCountEl.innerText = score;
+            targetCountEl.innerText = `0 / ${maxTargets}`;
+            
+            // Avvia la generazione ciclica dei bersagli
+            gameInterval = setInterval(spawnTarget, spawnSpeed);
+        }
+
+        function spawnTarget() {
+            // Rimuovi eventuali bersagli precedenti rimasti a schermo
+            const oldTarget = document.querySelector('.target');
+            if (oldTarget) oldTarget.remove();
+
+            if (totalTargetsSpawned >= maxTargets) {
+                clearInterval(gameInterval);
+                setTimeout(endGame, 1300); // Attende l'animazione dell'ultimo bersaglio
+                return;
+            }
+
+            totalTargetsSpawned++;
+            targetCountEl.innerText = `${totalTargetsSpawned} / ${maxTargets}`;
+
+            // Creazione elemento bersaglio
+            const target = document.createElement('div');
+            target.className = 'target';
+
+            // Calcolo coordinate casuali all'interno dell'area di gioco (lasciando un margine dai bordi)
+            const areaWidth = gameArea.clientWidth - 50;
+            const areaHeight = gameArea.clientHeight - 50;
+            const randomX = Math.floor(Math.random() * areaWidth) + 5;
+            const randomY = Math.floor(Math.random() * areaHeight) + 5;
+
+            target.style.left = `${randomX}px`;
+            target.style.top = `${randomY}px`;
+
+            // Evento al click sul bersaglio (mira corretta)
+            target.addEventListener('mousedown', (e) => {
+                e.stopPropagation(); // Impedisce di cliccare sullo sfondo dell'area
+                score++;
+                hitCountEl.innerText = score;
+                target.remove(); // Svanisce istantaneamente quando colpito
+            });
+
+            gameArea.appendChild(target);
+
+            // Rimuove il bersaglio in automatico dopo 1.2 secondi se il giocatore lo manca
+            clearTimeout(activeTargetTimeout);
+            activeTargetTimeout = setTimeout(() => {
+                if (target.parentNode) target.remove();
+            }, 1200);
+        }
+
+        function endGame() {
+            clearTimeout(activeTargetTimeout);
+            
+            // Ricrea l'overlay con i risultati finali
+            startOverlay.innerHTML = `
+                <h3 style="color: #ffaa00; margin-bottom: 10px;">Test Completato!</h3>
+                <p style="font-size: 1.2rem; color: #fff; margin-bottom: 10px;">Hai colpito ${score} su ${maxTargets} bersagli.</p>
+                <p id="reward-text" style="font-weight: bold; margin-bottom: 25px; text-align:center; max-width:85%;"></p>
+                <button class="btn-card pro-btn" onclick="location.reload()" style="padding: 12px 30px;">RIFAILE SFIDA</button>
+            `;
+            
+            const rewardText = startOverlay.querySelector('#reward-text');
+
+            // CONDIZIONE OBIETTIVO SBLOCCO: la sessione viene considerata superata con successo
+            if (localStorage.getItem('obj_aim_done') !== 'true') {
+                let totalHubXP = parseInt(localStorage.getItem('hub_total_xp') || '0');
+                localStorage.setItem('hub_total_xp', (totalHubXP + 60).toString());
+                localStorage.setItem('obj_aim_done', 'true');
+            }
+            
+            rewardText.innerText = `🏆 ECCELLENTE! Sfida registrata correttamente: hai guadagnato +60 XP e sbloccato il medaglione 'Aimbot Umano'!`;
+            rewardText.style.color = "#00f0ff";
+            
+            startOverlay.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
