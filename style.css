@@ -1,261 +1,103 @@
-/* ==========================================================================
-   1. STILE DI BASE E INTERFACCIA GENERALE
-   ========================================================================== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #1e1e2f, #111119);
-    color: #ffffff;
+    background-color: #0c0c0c;
+    color: #fff;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 40px 20px;
+    padding: 10px;
     box-sizing: border-box;
 }
 
-.container {
+#menu-iniziale {
     text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #161616;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     max-width: 500px;
     width: 100%;
 }
+#menu-iniziale h1 { margin-top: 0; font-size: 24px; color: #ff5722; }
+#menu-iniziale p { color: #aaa; font-size: 14px; margin-bottom: 25px; }
+.menu-buttons { display: flex; flex-direction: column; gap: 12px; }
+.btn-scelta {
+    background: #222; color: white; border: 2px solid #ff5722;
+    padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
+}
+.btn-scelta:hover { background: #ff5722; transform: scale(1.02); }
 
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    text-shadow: 0 0 10px #ff007f;
-    color: #ff007f;
-}
-
-h2 {
-    font-size: 1.8rem;
-    color: #00f0ff;
-    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.pro-title {
-    color: #ffaa00;
-    text-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
-}
-
-p {
-    color: #b3b3b3;
-    margin-bottom: 30px;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.section-title {
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.category-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-}
-
-/* ==========================================================================
-   2. BARRA DI PROGRESSIONE XP
-   ========================================================================== */
-.xp-container {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(0, 240, 255, 0.2);
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-    text-align: left;
-}
-.xp-text {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-}
-.xp-bar-bg {
-    background: #222;
-    width: 100%;
-    height: 12px;
-    border-radius: 6px;
-    overflow: hidden;
-}
-.xp-bar-fill {
-    background: linear-gradient(90deg, #00f0ff, #ff007f);
-    width: 0%;
-    height: 100%;
-    transition: width 1s ease-out;
-    box-shadow: 0 0 8px #00f0ff;
-}
-
-/* ==========================================================================
-   3. PULSANTI CARD DELLE CATEGORIE (HOVER NEON)
-   ========================================================================== */
-.btn-card {
-    background: #2a2a40;
-    border: 2px solid transparent;
-    color: white;
-    padding: 18px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    text-decoration: none;
-}
-
-.pokemon-btn:hover { background: #ffcb05; color: #3b4cca; border-color: #3b4cca; box-shadow: 0 0 15px #ffcb05; }
-.minecraft-btn:hover { background: #4a7227; color: white; border-color: #866043; box-shadow: 0 0 15px #4a7227; }
-.anime-btn:hover { background: #ff6b6b; color: white; border-color: #c92a2a; box-shadow: 0 0 15px #ff6b6b; }
-.sport-btn:hover { background: #339af0; color: white; border-color: #1c7ed6; box-shadow: 0 0 15px #339af0; }
-.beyblade-btn:hover { background: #fcc419; color: #10111a; border-color: #e67e22; box-shadow: 0 0 15px #fcc419; }
-.game-btn { background: #1f3333; border: 2px dashed #00f0ff; color: #00f0ff; }
-.game-btn:hover { background: #00f0ff; color: #111119; box-shadow: 0 0 15px #00f0ff; }
-.pro-btn { background: #332211; border: 2px solid #ffaa00; color: #ffaa00; }
-.pro-btn:hover { background: #ffaa00; color: #111119; box-shadow: 0 0 15px #ffaa00; }
-
-/* ==========================================================================
-   4. CASSETTE DEI MEDAGLIONI (BADGES)
-   ========================================================================== */
-.badge-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 15px;
-}
-.badge-box {
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid #333;
-    border-radius: 10px;
-    padding: 12px;
+#game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
-    opacity: 0.25;
-    filter: grayscale(100%);
-    transition: all 0.5s ease;
-}
-.badge-box.unlocked {
-    opacity: 1;
-    filter: grayscale(0%);
-    border-color: #ffaa00;
-    background: rgba(255, 170, 0, 0.05);
-    box-shadow: 0 0 10px rgba(255, 170, 0, 0.15);
-}
-.badge-icon { font-size: 2rem; }
-.badge-name { font-weight: bold; font-size: 0.9rem; color: #fff; }
-.badge-desc { font-size: 0.75rem; color: #aaa; text-align: center; }
-
-/* ==========================================================================
-   5. TABELLA DEL REGISTRO OBIETTIVI
-   ========================================================================== */
-.table-scroll {
-    overflow-x: auto;
-    margin-top: 15px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 240, 255, 0.15);
-}
-.objectives-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(0, 0, 0, 0.3);
-    font-size: 0.9rem;
-    text-align: left;
-}
-.objectives-table th {
-    background: #1f1f38;
-    color: #00f0ff;
-    padding: 10px 12px;
-    font-weight: bold;
-    border-bottom: 2px solid rgba(0, 240, 255, 0.2);
-}
-.objectives-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-}
-.objectives-table tr:last-child td {
-    border-bottom: none;
-}
-.obj-name {
-    font-weight: bold;
-    color: #fff;
-}
-.obj-reward {
-    color: #ffaa00;
-    font-weight: bold;
-    text-align: right;
-}
-
-/* Stato sbloccato dinamico per le righe degli obiettivi */
-.completed-row td {
-    text-decoration: line-through;
-    opacity: 0.4;
-    background: rgba(0, 240, 255, 0.02);
-}
-.completed-row td.obj-reward {
-    text-decoration: none !important;
-}
-
-/* ==========================================================================
-   6. CONTROLLI AGGIUNTIVI PER ADATTAMENTO MOBILE (SNAKE D-PAD)
-   ========================================================================== */
-.mobile-controls {
-    display: grid;
-    grid-template-columns: repeat(3, 65px);
-    grid-template-rows: repeat(3, 65px);
-    gap: 12px;
-    justify-content: center;
-    margin-top: 45px; /* Ampio spazio inserito sotto il campo da gioco */
-    margin-bottom: 15px;
-}
-
-.touch-btn {
-    background: #2a2a40;
-    border: 2px solid transparent;
+    background-color: #161616;
+    padding: 10px;
     border-radius: 12px;
-    color: white;
-    font-size: 1.4rem;
-    font-weight: bold;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+#ui-bar {
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    transition: all 0.2s ease;
+    margin-bottom: 8px;
+    background: #222;
+    padding: 10px;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.stat { font-size: 14px; font-weight: bold; }
+#btn-wave {
+    background-color: #ff5722; color: white; border: none;
+    padding: 8px 14px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px;
 }
 
-/* Effetto di pressione del pulsante touch coordinato con lo stile neon dell'hub */
-.touch-btn:active {
-    background: #00f0ff;
-    color: #111119;
-    box-shadow: 0 0 15px #00f0ff;
+canvas {
+    background-color: #1b5e20;
+    border: 3px solid #2d1a10;
+    border-radius: 6px;
+    width: 100%;
+    height: auto;
+    touch-action: none;
 }
 
-.empty-space {
-    pointer-events: none;
+#shop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 5px;
+    width: 100%;
+    margin-top: 8px;
+    box-sizing: border-box;
 }
+.shop-item {
+    color: white; border: none; padding: 6px; cursor: pointer; border-radius: 6px; text-align: left;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+.shop-item h3 { margin: 0 0 2px 0; font-size: 12px; font-weight: bold; }
+.shop-item p { margin: 0; font-size: 9px; color: #e0e0e0; line-height: 1.1; }
 
-/* Nasconde i pulsanti direzionali su computer desktop */
-@media (min-width: 768px) {
-    .mobile-controls {
-        display: none;
-    }
+.t-basic { background-color: #2196f3; } .t-fast { background-color: #e91e63; }
+.t-ice { background-color: #00bcd4; } .t-plasma { background-color: #9c27b0; }
+.t-sniper { background-color: #607d8b; } .t-poison { background-color: #4caf50; }
+.t-gold { background-color: #ff9800; } .t-laser { background-color: #ff5722; }
+.t-tesla { background-color: #3f51b5; } .t-fire { background-color: #f44336; }
+.t-chrono { background-color: #009688; } .t-vampire { background-color: #795548; }
+.t-sonic { background-color: #673ab7; } .t-shadow { background-color: #333333; }
+.t-meteor { background-color: #e65100; } .t-god { background-color: #d4af37; color:#000; } .t-god p { color:#222; }
+
+#info-bar { width: 100%; margin-top: 6px; font-size: 11px; color: #888; text-align: center; }
+
+body.mode-mobile #shop-grid {
+    grid-template-columns: repeat(2, 1fr);
 }
+body.mode-mobile .shop-item { padding: 10px 8px; }
+body.mode-mobile .shop-item h3 { font-size: 13px; }
+body.mode-mobile .shop-item p { font-size: 10px; }
+body.mode-mobile .stat { font-size: 15px; }
+body.mode-mobile #btn-wave { padding: 10px 16px; font-size: 13px; }

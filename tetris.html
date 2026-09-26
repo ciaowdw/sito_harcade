@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Advanced Tower Defense</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="menu-iniziale">
+        <h1>Scegli la modalità di gioco</h1>
+        <p>Il layout verrà ottimizzato per il tuo dispositivo</p>
+        <div class="menu-buttons">
+            <button class="btn-scelta" onclick="impostaModalita('pc')">💻 Gioca da Computer</button>
+            <button class="btn-scelta" onclick="impostaModalita('mobile')">📱 Gioca da Telefono</button>
+        </div>
+    </div>
+
+    <div id="game-container" style="display: none;">
+        <div id="ui-bar">
+            <div class="stat">❤️ Vite: <span id="lives">20</span></div>
+            <div class="stat">💰 Oro: <span id="gold">500</span></div>
+            <div class="stat">⚔️ Ondata: <span id="wave">0</span></div>
+            <button id="btn-wave" onclick="startNextWave()">Prossima Ondata</button>
+        </div>
+        
+        <canvas id="gameCanvas" width="800" height="500"></canvas>
+        
+        <div id="shop-grid">
+            <button class="shop-item t-basic" onclick="selectTower('basic')"><h3>🗼 Base</h3><p>Danno bilanciato. Costo: 40</p></button>
+            <button class="shop-item t-fast" onclick="selectTower('fast')"><h3>⚡ Rapida</h3><p>Velocità folle. Costo: 75</p></button>
+            <button class="shop-item t-ice" onclick="selectTower('ice')"><h3>❄️ Ghiaccio</h3><p>Rallenta nemici. Costo: 100</p></button>
+            <button class="shop-item t-plasma" onclick="selectTower('plasma')"><h3>💥 Plasma AoE</h3><p>Esplosione area. Costo: 150</p></button>
+            <button class="shop-item t-sniper" onclick="selectTower('sniper')"><h3>🎯 Cecchino</h3><p>Raggio immenso. Costo: 180</p></button>
+            <button class="shop-item t-poison" onclick="selectTower('poison')"><h3>☣️ Veleno</h3><p>Danno nel tempo. Costo: 120</p></button>
+            <button class="shop-item t-gold" onclick="selectTower('goldGen')"><h3>🪙 Miniera</h3><p>Genera oro. Costo: 200</p></button>
+            <button class="shop-item t-laser" onclick="selectTower('laser')"><h3>👁️ Laser</h3><p>Raggio continuo. Costo: 220</p></button>
+            <button class="shop-item t-tesla" onclick="selectTower('tesla')"><h3>🔌 Tesla</h3><p>Scossa critica. Costo: 160</p></button>
+            <button class="shop-item t-fire" onclick="selectTower('fire')"><h3>🔥 Fuoco</h3><p>Brucia l'area. Costo: 130</p></button>
+            <button class="shop-item t-chrono" onclick="selectTower('chrono')"><h3>⏳ Crono</h3><p>Super slow. Costo: 250</p></button>
+            <button class="shop-item t-vampire" onclick="selectTower('vampire')"><h3>🧛 Vampira</h3><p>Ruba vita. Costo: 300</p></button>
+            <button class="shop-item t-sonic" onclick="selectTower('sonic')"><h3>🔊 Sonica</h3><p>Onda d'urto. Costo: 110</p></button>
+            <button class="shop-item t-shadow" onclick="selectTower('shadow')"><h3>👥 Ombra</h3><p>Colpi fantasma. Costo: 140</p></button>
+            <button class="shop-item t-meteor" onclick="selectTower('meteor')"><h3>☄️ Meteora</h3><p>Lenta ma letale. Costo: 270</p></button>
+            <button class="shop-item t-god" onclick="selectTower('god')"><h3>👑 Divina</h3><p>Potenza pura. Costo: 00</p></button>
+        </div>
+        <div id="info-bar">Seleziona una torretta e tocca la mappa per posizionarla o potenziarla!</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
