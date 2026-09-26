@@ -1,0 +1,261 @@
+/* ==========================================================================
+   1. STILE DI BASE E INTERFACCIA GENERALE
+   ========================================================================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1e1e2f, #111119);
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px #ff007f;
+    color: #ff007f;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #00f0ff;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.pro-title {
+    color: #ffaa00;
+    text-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+}
+
+p {
+    color: #b3b3b3;
+    margin-bottom: 30px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.section-title {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+/* ==========================================================================
+   2. BARRA DI PROGRESSIONE XP
+   ========================================================================== */
+.xp-container {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+.xp-text {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+.xp-bar-bg {
+    background: #222;
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.xp-bar-fill {
+    background: linear-gradient(90deg, #00f0ff, #ff007f);
+    width: 0%;
+    height: 100%;
+    transition: width 1s ease-out;
+    box-shadow: 0 0 8px #00f0ff;
+}
+
+/* ==========================================================================
+   3. PULSANTI CARD DELLE CATEGORIE (HOVER NEON)
+   ========================================================================== */
+.btn-card {
+    background: #2a2a40;
+    border: 2px solid transparent;
+    color: white;
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.pokemon-btn:hover { background: #ffcb05; color: #3b4cca; border-color: #3b4cca; box-shadow: 0 0 15px #ffcb05; }
+.minecraft-btn:hover { background: #4a7227; color: white; border-color: #866043; box-shadow: 0 0 15px #4a7227; }
+.anime-btn:hover { background: #ff6b6b; color: white; border-color: #c92a2a; box-shadow: 0 0 15px #ff6b6b; }
+.sport-btn:hover { background: #339af0; color: white; border-color: #1c7ed6; box-shadow: 0 0 15px #339af0; }
+.beyblade-btn:hover { background: #fcc419; color: #10111a; border-color: #e67e22; box-shadow: 0 0 15px #fcc419; }
+.game-btn { background: #1f3333; border: 2px dashed #00f0ff; color: #00f0ff; }
+.game-btn:hover { background: #00f0ff; color: #111119; box-shadow: 0 0 15px #00f0ff; }
+.pro-btn { background: #332211; border: 2px solid #ffaa00; color: #ffaa00; }
+.pro-btn:hover { background: #ffaa00; color: #111119; box-shadow: 0 0 15px #ffaa00; }
+
+/* ==========================================================================
+   4. CASSETTE DEI MEDAGLIONI (BADGES)
+   ========================================================================== */
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+}
+.badge-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.25;
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+}
+.badge-box.unlocked {
+    opacity: 1;
+    filter: grayscale(0%);
+    border-color: #ffaa00;
+    background: rgba(255, 170, 0, 0.05);
+    box-shadow: 0 0 10px rgba(255, 170, 0, 0.15);
+}
+.badge-icon { font-size: 2rem; }
+.badge-name { font-weight: bold; font-size: 0.9rem; color: #fff; }
+.badge-desc { font-size: 0.75rem; color: #aaa; text-align: center; }
+
+/* ==========================================================================
+   5. TABELLA DEL REGISTRO OBIETTIVI
+   ========================================================================== */
+.table-scroll {
+    overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 240, 255, 0.15);
+}
+.objectives-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 0.9rem;
+    text-align: left;
+}
+.objectives-table th {
+    background: #1f1f38;
+    color: #00f0ff;
+    padding: 10px 12px;
+    font-weight: bold;
+    border-bottom: 2px solid rgba(0, 240, 255, 0.2);
+}
+.objectives-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+.objectives-table tr:last-child td {
+    border-bottom: none;
+}
+.obj-name {
+    font-weight: bold;
+    color: #fff;
+}
+.obj-reward {
+    color: #ffaa00;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* Stato sbloccato dinamico per le righe degli obiettivi */
+.completed-row td {
+    text-decoration: line-through;
+    opacity: 0.4;
+    background: rgba(0, 240, 255, 0.02);
+}
+.completed-row td.obj-reward {
+    text-decoration: none !important;
+}
+
+/* ==========================================================================
+   6. CONTROLLI AGGIUNTIVI PER ADATTAMENTO MOBILE (SNAKE D-PAD)
+   ========================================================================== */
+.mobile-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 65px);
+    grid-template-rows: repeat(3, 65px);
+    gap: 12px;
+    justify-content: center;
+    margin-top: 45px; /* Ampio spazio inserito sotto il campo da gioco */
+    margin-bottom: 15px;
+}
+
+.touch-btn {
+    background: #2a2a40;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    transition: all 0.2s ease;
+}
+
+/* Effetto di pressione del pulsante touch coordinato con lo stile neon dell'hub */
+.touch-btn:active {
+    background: #00f0ff;
+    color: #111119;
+    box-shadow: 0 0 15px #00f0ff;
+}
+
+.empty-space {
+    pointer-events: none;
+}
+
+/* Nasconde i pulsanti direzionali su computer desktop */
+@media (min-width: 768px) {
+    .mobile-controls {
+        display: none;
+    }
+}
