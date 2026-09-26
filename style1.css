@@ -1,0 +1,103 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0c0c0c;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#menu-iniziale {
+    text-align: center;
+    background: #161616;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    max-width: 500px;
+    width: 100%;
+}
+#menu-iniziale h1 { margin-top: 0; font-size: 24px; color: #ff5722; }
+#menu-iniziale p { color: #aaa; font-size: 14px; margin-bottom: 25px; }
+.menu-buttons { display: flex; flex-direction: column; gap: 12px; }
+.btn-scelta {
+    background: #222; color: white; border: 2px solid #ff5722;
+    padding: 15px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s;
+}
+.btn-scelta:hover { background: #ff5722; transform: scale(1.02); }
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #161616;
+    padding: 10px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+#ui-bar {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    background: #222;
+    padding: 10px;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.stat { font-size: 14px; font-weight: bold; }
+#btn-wave {
+    background-color: #ff5722; color: white; border: none;
+    padding: 8px 14px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px;
+}
+
+canvas {
+    background-color: #1b5e20;
+    border: 3px solid #2d1a10;
+    border-radius: 6px;
+    width: 100%;
+    height: auto;
+    touch-action: none;
+}
+
+#shop-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 5px;
+    width: 100%;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+.shop-item {
+    color: white; border: none; padding: 6px; cursor: pointer; border-radius: 6px; text-align: left;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+.shop-item h3 { margin: 0 0 2px 0; font-size: 12px; font-weight: bold; }
+.shop-item p { margin: 0; font-size: 9px; color: #e0e0e0; line-height: 1.1; }
+
+.t-basic { background-color: #2196f3; } .t-fast { background-color: #e91e63; }
+.t-ice { background-color: #00bcd4; } .t-plasma { background-color: #9c27b0; }
+.t-sniper { background-color: #607d8b; } .t-poison { background-color: #4caf50; }
+.t-gold { background-color: #ff9800; } .t-laser { background-color: #ff5722; }
+.t-tesla { background-color: #3f51b5; } .t-fire { background-color: #f44336; }
+.t-chrono { background-color: #009688; } .t-vampire { background-color: #795548; }
+.t-sonic { background-color: #673ab7; } .t-shadow { background-color: #333333; }
+.t-meteor { background-color: #e65100; } .t-god { background-color: #d4af37; color:#000; } .t-god p { color:#222; }
+
+#info-bar { width: 100%; margin-top: 6px; font-size: 11px; color: #888; text-align: center; }
+
+body.mode-mobile #shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+body.mode-mobile .shop-item { padding: 10px 8px; }
+body.mode-mobile .shop-item h3 { font-size: 13px; }
+body.mode-mobile .shop-item p { font-size: 10px; }
+body.mode-mobile .stat { font-size: 15px; }
+body.mode-mobile #btn-wave { padding: 10px 16px; font-size: 13px; }
