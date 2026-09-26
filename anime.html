@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Anime - Gaming Hub</title>
+    <!-- Collegamento allo stile comune dell'hub -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .quiz-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            background: #2a2a40;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: #fff;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        /* Classi dinamiche per il feedback delle risposte */
+        .option-btn.correct {
+            background: #2b8a3e !important;
+            border-color: #40c057 !important;
+            box-shadow: 0 0 12px #2b8a3e;
+        }
+        .option-btn.wrong {
+            background: #c92a2a !important;
+            border-color: #fa5252 !important;
+            box-shadow: 0 0 12px #c92a2a;
+        }
+        .option-btn:hover:not(:disabled) {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: #00f0ff;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        .result-box {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>✨ Quiz Anime General ✨</h2>
+        <p id="quiz-progress">Domanda 1 di 15</p>
+
+        <!-- Contenitore Domande attive -->
+        <div class="quiz-box" id="quiz-screen">
+            <div class="question-text" id="question">Caricamento domanda...</div>
+            <div class="options-list" id="options"></div>
+        </div>
+
+        <!-- Schermata di Fine Quiz -->
+        <div class="result-box" id="result-screen">
+            <h3 id="result-title" style="color: #ffaa00; font-size: 1.8rem; margin-bottom: 10px;">Quiz Terminato!</h3>
+            <p id="result-score" style="font-size: 1.2rem; color: #fff;"></p>
+            <p id="result-reward" style="color: #00f0ff; font-weight: bold; margin-top: 10px;"></p>
+            <button class="btn-card game-btn" onclick="location.reload()" style="width: 100%; margin-top: 20px; justify-content: center;">🔄 Riprova il Quiz</button>
+        </div>
+
+        <a href="index.html" class="back-link">⬅ Torna al Menu Principale</a>
+    </div>
+
+    <script>
+        const domande = [
+            { q: "Qual è il nome del protagonista di 'Attack on Titan'?", o: ["Levi Ackerman", "Armin Arlert", "Eren Jaeger", "Erwin Smith"], a: 2 },
+            { q: "Quale frutto del diavolo ha mangiato Luffy in 'One Piece'?", o: ["Gom Gom", "Foco Foco", "Yami Yami", "Ryu Ryu"], a: 0 },
+            { q: "Chi è l'autore del manga originale di 'Dragon Ball'?", o: ["Eiichiro Oda", "Akira Toriyama", "Masashi Kishimoto", "Tite Kubo"], a: 1 },
+            { q: "Nel celebre anime 'Death Note', qual è il cibo preferito dello shinigami Ryuk?", o: ["Cioccolato", "Ramen", "Mele", "Sushi"], a: 2 },
+            { q: "Qual è l'obiettivo principale di Tanjiro in 'Demon Slayer'?", o: ["Diventare il Re dei Demoni", "Curare sua sorella Nezuko", "Trovare la spada leggendaria", "Vendicare il maestro"], a: 1 },
+            { q: "Quale di questi villaggi è la patria di Naruto Uzumaki?", o: ["Villaggio della Sabbia", "Villaggio della Nebbia", "Villaggio della Foglia", "Villaggio della Nuvola"], a: 2 },
+            { q: "Come si chiama l'entità robotica pilotata da Shinji Ikari in 'Evangelion'?", o: ["Gundam RX-78", "Eva-01", "Gurren Lagann", "Code Geass"], a: 1 },
+            { q: "In 'Hunter x Hunter', qual è il potere principale usato dai cacciatori?", o: ["Chakra", "Ki", "Nen", "Haki"], a: 2 },
+            { q: "Quale studio d'animazione ha prodotto film leggendari come 'La Città Incantata'?", o: ["Studio Ghibli", "Toei Animation", "MAPPA", "Wit Studio"], a: 0 },
+            { q: "Nel mondo di 'My Hero Academia', come viene chiamata la super abilità di Deku?", o: ["Explosion", "All For One", "One For All", "Half-Cold Half-Hot"], a: 2 },
+            { q: "Come si chiama lo sport al centro dell'anime 'Haikyu!!'?", o: ["Basket", "Pallavolo", "Calcio", "Tennis"], a: 1 },
+            { q: "In 'Fullmetal Alchemist', qual è la legge fondamentale dell'alchimia?", o: ["Legge del Più Forte", "Scambio Equivalente", "Fusione Nucleare", "Legge della Conservazione"], a: 1 },
+            { q: "Qual è il nome dell'assistente scienziata di Okabe in 'Steins;Gate'?", o: ["Mayuri Shiina", "Kurisu Makise", "Suzuha Amane", "Moeka Kiryu"], a: 1 },
+            { q: "Nel manga e anime 'Jujutsu Kaisen', quanti sono in totale i sassi/dita di Sukuna?", o: ["10", "15", "20", "25"], a: 2 },
+            { q: "Chi è lo spadaccino nero protagonista dell'oscuro anime e manga 'Berserk'?", o: ["Guts", "Griffith", "Zodd", "Casca"], a: 0 }
+        ];
+
+        let indexDomanda = 0;
+        let risposteCorrette = 0;
+
+        function mostraDomanda() {
+            if (indexDomanda < domande.length) {
+                document.getElementById('quiz-progress').innerText = `Domanda ${indexDomanda + 1} di ${domande.length}`;
+                document.getElementById('question').innerText = domande[indexDomanda].q;
+                
+                const containerOpzioni = document.getElementById('options');
+                containerOpzioni.innerHTML = '';
+
+                domande[indexDomanda].o.forEach((opzione, i) => {
+                    const bottone = document.createElement('button');
+                    bottone.className = 'option-btn';
+                    bottone.innerText = opzione;
+                    bottone.onclick = () => controllaRisposta(i, bottone);
+                    containerOpzioni.appendChild(bottone);
+                });
+            } else {
+                mostraRisultatoFinale();
+            }
+        }
+
+        function controllaRisposta(indiceScelto, bottoneCliccato) {
+            const indiceCorretto = domande[indexDomanda].a;
+            const tuttiIBottoni = document.querySelectorAll('.option-btn');
+
+            tuttiIBottoni.forEach(btn => btn.disabled = true);
+
+            if (indiceScelto === indiceCorretto) {
+                bottoneCliccato.classList.add('correct');
+                risposteCorrette++;
+            } else {
+                bottoneCliccato.classList.add('wrong');
+                tuttiIBottoni[indiceCorretto].classList.add('correct');
+            }
+
+            setTimeout(() => {
+                indexDomanda++;
+                mostraDomanda();
+            }, 1200);
+        }
+
+        function mostraRisultatoFinale() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('quiz-progress').style.display = 'none';
+            
+            const resultScreen = document.getElementById('result-screen');
+            const scoreText = document.getElementById('result-score');
+            const rewardText = document.getElementById('result-reward');
+            
+            resultScreen.style.display = 'block';
+            scoreText.innerText = `Hai totalizzato ${risposteCorrette} su ${domande.length} risposte esatte!`;
+
+            // CONDIZIONE SPECIALE: Sblocco solo con il 100% di risposte esatte (15 su 15)
+            if (risposteCorrette === domande.length) {
+                if (localStorage.getItem('badge_anime_complete') !== 'true') {
+                    let totalHubXP = parseInt(localStorage.getItem('hub_total_xp') || '0');
+                    localStorage.setItem('hub_total_xp', (totalHubXP + 50).toString());
+                    localStorage.setItem('badge_anime_complete', 'true');
+                }
+                rewardText.innerText = "👑 OTAKU MASTER! Punteggio perfetto (15/15): hai sbloccato il Medaglione Reale e guadagnato +50 XP!";
+                rewardText.style.color = "#00f0ff";
+            } else {
+                rewardText.innerText = `Devi fare 15/15 per sbloccare questo Medaglione. Ti mancano ${15 - risposteCorrette} risposte esatte!`;
+                rewardText.style.color = "#aaa";
+            }
+        }
+
+        mostraDomanda();
+    </script>
+</body>
+</html>

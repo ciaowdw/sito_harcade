@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Beyblade - Gaming Hub</title>
+    <!-- Collegamento allo stile comune dell'hub -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .quiz-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            background: #2a2a40;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            color: #fff;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        /* Classi dinamiche per la correzione visiva immediata */
+        .option-btn.correct {
+            background: #2b8a3e !important;
+            border-color: #40c057 !important;
+            box-shadow: 0 0 12px #2b8a3e;
+        }
+        .option-btn.wrong {
+            background: #c92a2a !important;
+            border-color: #fa5252 !important;
+            box-shadow: 0 0 12px #c92a2a;
+        }
+        .option-btn:hover:not(:disabled) {
+            background: rgba(0, 240, 255, 0.1);
+            border-color: #00f0ff;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+        .result-box {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚙️ Quiz Beyblade Master ⚙️</h2>
+        <p id="quiz-progress">Domanda 1 di 15</p>
+
+        <!-- Contenitore Domande attive -->
+        <div class="quiz-box" id="quiz-screen">
+            <div class="question-text" id="question">Caricamento domanda...</div>
+            <div class="options-list" id="options"></div>
+        </div>
+
+        <!-- Schermata di Fine Quiz -->
+        <div class="result-box" id="result-screen">
+            <h3 id="result-title" style="color: #ffaa00; font-size: 1.8rem; margin-bottom: 10px;">Quiz Terminato!</h3>
+            <p id="result-score" style="font-size: 1.2rem; color: #fff;"></p>
+            <p id="result-reward" style="color: #00f0ff; font-weight: bold; margin-top: 10px;"></p>
+            <button class="btn-card game-btn" onclick="location.reload()" style="width: 100%; margin-top: 20px; justify-content: center;">🔄 Riprova il Quiz</button>
+        </div>
+
+        <a href="index.html" class="back-link">⬅ Torna al Menu Principale</a>
+    </div>
+
+    <script>
+        // Lista di 15 domande specifiche sulle varie serie di Beyblade
+        const domande = [
+            { q: "Chi è il leggendario protagonista della primissima serie storica di Beyblade?", o: ["Tyson Granger", "Kai Hiwatari", "Gingka Hagane", "Valt Aoi"], a: 0 },
+            { q: "Come si chiama lo spirito del Bit-Guerriero racchiuso nel Beyblade di Tyson?", o: ["Driger", "Draciel", "Dragoon", "Dranzer"], a: 2 },
+            { q: "Qual è il nome del rivale storico di Tyson, capitano degli Blade Sharks?", o: ["Ray Kon", "Max Tate", "Kai Hiwatari", "Volkov"], a: 2 },
+            { q: "Nella serie Beyblade Metal Fusion, qual è il Beyblade compagno di Gingka Hagane?", o: ["Storm Pegasus", "Lightning L-Drago", "Rock Leone", "Flame Sagittario"], a: 0 },
+            { q: "Chi è il possessore del temibile Beyblade proibito ruotante a sinistra, L-Drago?", o: ["Kyoya", "Ryuga", "Doji", "Tsubasa"], a: 1 },
+            { q: "Di che tipo è il Beyblade Rock Leone di Kyoya Tategami?", o: ["Attacco", "Difesa", "Resistenza", "Equilibrio"], a: 1 },
+            { q: "Come si chiama il protagonista che introduce l'era Burst con il Beyblade Victory Valtryek?", o: ["Shu Kurenai", "Valt Aoi", "Free De La Hoya", "Lui Shirosagi"], a: 1 },
+            { q: "Qual è il nome dell'iconico rivale e amico di Valt che possiede Storm Spryzen?", o: ["Shu Kurenai", "Xander Shakadera", "Silas Karlisle", "Free"], a: 0 },
+            { q: "Che tipo di rotazione speciale possiede il Beyblade Spryzen / Spriggan in molte evoluzioni?", o: ["Solo a sinistra", "Solo a destra", "Ambidestra (Doppia rotazione)", "Rotazione libera alternata"], a: 2 },
+            { q: "Qual è il grido di battaglia universale usato dai Blader per lanciare la trottola?", o: ["Pronti, attacco!", "3, 2, 1... Pronti al lancio!", "Beyblade, vai!", "3, 2, 1... Let it rip!"], a: 3 },
+            { q: "Come si chiama l'area di scontro circolare dove combattono i Beyblade?", o: ["Stadium (Stadio)", "Ring", "Arena Combat", "Griglia"], a: 0 },
+            { q: "Nella serie Burst, come si chiama la spettacolare vittoria che fa letteralmente a pezzi la trottola avversaria?", o: ["Vittoria per Sopravvivenza", "Vittoria per Sfondamento", "Vittoria per Esplosione (Burst Finish)", "Vittoria Suprema"], a: 2 },
+            { q: "Quale Blader della serie Burst è noto per essere il numero 1 al mondo con il Beyblade Drain Fafnir?", o: ["Lui Shirosagi", "Free De La Hoya", "Valt Aoi", "Aiger Akabane"], a: 1 },
+            { q: "Come si chiama l'organizzazione antagonista guidata da Doji in Metal Fusion?", o: ["Team Star Breaker", "Nebulosa Oscura (Dark Nebula)", "Ziggurat Corporation", "G-Revolutions"], a: 1 },
+            { q: "Quale animale mitologico rappresenta il Beyblade Dranzer di Kai?", o: ["Drago Azzurro", "Tigre Bianca", "Tartaruga Nera", "Fenice di Fuoco"], a: 3 }
+        ];
+
+        let indexDomanda = 0;
+        let risposteCorrette = 0;
+
+        function mostraDomanda() {
+            if (indexDomanda < domande.length) {
+                document.getElementById('quiz-progress').innerText = `Domanda ${indexDomanda + 1} di ${domande.length}`;
+                document.getElementById('question').innerText = domande[indexDomanda].q;
+                
+                const containerOpzioni = document.getElementById('options');
+                containerOpzioni.innerHTML = '';
+
+                domande[indexDomanda].o.forEach((opzione, i) => {
+                    const bottone = document.createElement('button');
+                    bottone.className = 'option-btn';
+                    bottone.innerText = opzione;
+                    bottone.onclick = () => controllaRisposta(i, bottone);
+                    containerOpzioni.appendChild(bottone);
+                });
+            } else {
+                mostraRisultatoFinale();
+            }
+        }
+
+        function controllaRisposta(indiceScelto, bottoneCliccato) {
+            const indiceCorretto = domande[indexDomanda].a;
+            const tuttiIBottoni = document.querySelectorAll('.option-btn');
+
+            tuttiIBottoni.forEach(btn => btn.disabled = true);
+
+            if (indiceScelto === indiceCorretto) {
+                bottoneCliccato.classList.add('correct');
+                risposteCorrette++;
+            } else {
+                bottoneCliccato.classList.add('wrong');
+                tuttiIBottoni[indiceCorretto].classList.add('correct');
+            }
+
+            setTimeout(() => {
+                indexDomanda++;
+                mostraDomanda();
+            }, 1200);
+        }
+
+        function mostraRisultatoFinale() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('quiz-progress').style.display = 'none';
+            
+            const resultScreen = document.getElementById('result-screen');
+            const scoreText = document.getElementById('result-score');
+            const rewardText = document.getElementById('result-reward');
+            
+            resultScreen.style.display = 'block';
+            scoreText.innerText = `Hai totalizzato ${risposteCorrette} su ${domande.length} risposte esatte!`;
+
+            // OBIETTIVO SBLOCCO: Almeno 11 risposte corrette su 15
+            if (risposteCorrette >= 11) {
+                if (localStorage.getItem('obj_bey_done') !== 'true') {
+                    let totalHubXP = parseInt(localStorage.getItem('hub_total_xp') || '0');
+                    localStorage.setItem('hub_total_xp', (totalHubXP + 40).toString());
+                    localStorage.setItem('obj_bey_done', 'true');
+                }
+                rewardText.innerText = "🏆 BLADER LEGGENDARIO! Hai fatto almeno 11 punti: guadagni +40 XP e sblocchi il rispettivo Medaglione!";
+                rewardText.style.color = "#00f0ff";
+            } else {
+                rewardText.innerText = `Ti mancano ${11 - risposteCorrette} risposte corrette per raggiungere l'obiettivo (minimo 11/15) e sbloccare il Medaglione!`;
+                rewardText.style.color = "#aaa";
+            }
+        }
+
+        mostraDomanda();
+    </script>
+</body>
+</html>

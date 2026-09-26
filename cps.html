@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS Test - Pro Player Challenge</title>
+    <!-- Collegamento allo stile comune dell'hub -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cps-box {
+            width: 100%;
+            height: 220px;
+            background: #2a2a40;
+            border: 2px dashed rgba(0, 240, 255, 0.4);
+            border-radius: 12px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s ease;
+        }
+        
+        .cps-box:active {
+            background: rgba(0, 240, 255, 0.1);
+            border-style: solid;
+            border-color: #00f0ff;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .box-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+        }
+
+        .box-subtext {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 8px;
+        }
+
+        .stat-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffaa00;
+            margin: 15px 0;
+        }
+
+        .record-box {
+            font-size: 1.1rem;
+            color: #00f0ff;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .result-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ff007f;
+            min-height: 50px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .back-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🖱️ CPS Test (Click Speed) 🖱️</h2>
+        <p>Clicca il più velocemente possibile nel riquadro per 5 secondi.</p>
+
+        <div class="record-box">👑 Record Personale: <span id="high-cps">0.0</span> CPS</div>
+
+        <div class="stat-bar">
+            <span>Tempo: <span id="timer-val" style="color: #fff;">5.0s</span></span>
+            <span>Click totali: <span id="click-val" style="color: #ff007f;">0</span></span>
+        </div>
+
+        <!-- Area di click principale -->
+        <div class="cps-box" id="click-zone">
+            <div class="box-text" id="main-text">CLICCA QUI PER INIZIARE</div>
+            <div class="box-subtext" id="sub-text">Il timer partirà al primo click</div>
+        </div>
+
+        <div class="result-text" id="result-message"></div>
+
+        <button class="btn-card pro-btn" id="restart-btn" style="width:100%; display:none; margin-top:15px; justify-content: center;">🔄 Riprova il Test</button>
+        <br>
+        <a href="index.html" class="back-link">⬅ Torna al Menu Principale</a>
+    </div>
+
+    <script>
+        const clickZone = document.getElementById('click-zone');
+        const mainText = document.getElementById('main-text');
+        const subText = document.getElementById('sub-text');
+        const timerVal = document.getElementById('timer-val');
+        const clickVal = document.getElementById('click-val');
+        const resultMessage = document.getElementById('result-message');
+        const restartBtn = document.getElementById('restart-btn');
+        const highCpsEl = document.getElementById('high-cps');
+
+        let clickCount = 0;
+        let timeLeft = 5.0;
+        let isPlaying = false;
+        let hasFinished = false;
+        let intervalId = null;
+
+        function aggiornaRecordVisivo() {
+            const salvataggioRecord = localStorage.getItem('cps_best_score');
+            if (salvataggioRecord) {
+                highCpsEl.innerText = parseFloat(salvataggioRecord).toFixed(1);
+            }
+        }
+
+        clickZone.addEventListener('mousedown', (e) => {
+            if (hasFinished) return;
+
+            // Avvia il test al primo click
+            if (!isPlaying) {
+                isPlaying = true;
+                mainText.innerText = "CLICCA! CLICCA!";
+                subText.innerText = "Continua così!";
+                intervalId = setInterval(aggiornaTimer, 100);
+            }
+
+            clickCount++;
+            clickVal.innerText = clickCount;
+        });
+
+        restartBtn.addEventListener('click', restartTest);
+
+        function aggiornaTimer() {
+            timeLeft -= 0.1;
+            if (timeLeft <= 0) {
+                timeLeft = 0;
+                clearInterval(intervalId);
+                endTest();
+            }
+            timerVal.innerText = timeLeft.toFixed(1) + "s";
+        }
+
+        function endTest() {
+            isPlaying = false;
+            hasFinished = true;
+            clickZone.style.cursor = "default";
+            
+            const finalCPS = clickCount / 5;
+            mainText.innerText = `${finalCPS.toFixed(1)} CPS`;
+            subText.innerText = "Test terminato";
+            restartBtn.style.display = "flex";
+
+            // Gestione Record Personale
+            const recordPrecedente = localStorage.getItem('cps_best_score');
+            if (!recordPrecedente || finalCPS > parseFloat(recordPrecedente)) {
+                localStorage.setItem('cps_best_score', finalCPS.toString());
+                aggiornaRecordVisivo();
+            }
+
+            // OBIETTIVO SBLOCCO: Più di 10 CPS
+            if (finalCPS > 10) {
+                resultMessage.innerText = `🏆 IMPRESSIONANTE! Hai totalizzato ${finalCPS.toFixed(1)} CPS (Oltre 10 CPS). Guadagni +50 XP e sblocchi il Medaglione 'Macro Clic'!`;
+                resultMessage.style.color = "#00f0ff";
+
+                if (localStorage.getItem('obj_cps_done') !== 'true') {
+                    let totalHubXP = parseInt(localStorage.getItem('hub_total_xp') || '0');
+                    localStorage.setItem('hub_total_xp', (totalHubXP + 50).toString());
+                    localStorage.setItem('obj_cps_done', 'true');
+                }
+            } else {
+                resultMessage.innerText = `Buon ritmo! Raggiungi più di 10.0 CPS per sbloccare l'obiettivo. Ti mancavano ${(10.1 - finalCPS).toFixed(1)} CPS!`;
+                resultMessage.style.color = "#aaa";
+            }
+        }
+
+        function restartTest() {
+            clickCount = 0;
+            timeLeft = 5.0;
+            isPlaying = false;
+            hasFinished = false;
+            clickZone.style.cursor = "pointer";
+            
+            timerVal.innerText = "5.0s";
+            clickVal.innerText = "0";
+            mainText.innerText = "CLICCA QUI PER INIZIARE";
+            subText.innerText = "Il timer partirà al primo click";
+            resultMessage.innerText = "";
+            restartBtn.style.display = "none";
+        }
+
+        // Carica il record all'avvio
+        aggiornaRecordVisivo();
+    </script>
+</body>
+</html>
