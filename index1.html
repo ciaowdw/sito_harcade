@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleziona Dispositivo</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --phone-color: #38bdf8;
+            --phone-glow: rgba(56, 189, 248, 0.15);
+            --computer-color: #4ade80;
+            --computer-glow: rgba(74, 222, 128, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #f8fafc;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            display: flex;
+            gap: 24px;
+            max-width: 600px;
+            width: 100%;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .btn-card {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px 24px;
+            text-decoration: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* Icone simulate via testo per non dipendere da librerie esterne */
+        .icon {
+            font-size: 3rem;
+            line-height: 1;
+            transition: transform 0.4s ease;
+        }
+
+        .btn-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        /* Stile specifico Telefono */
+        .btn-phone:hover {
+            border-color: var(--phone-color);
+            box-shadow: 0 20px 40px var(--phone-glow);
+            transform: translateY(-6px);
+        }
+        .btn-phone:hover .icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+        .btn-phone .btn-text { color: #f1f5f9; }
+        .btn-phone:hover .btn-text { color: var(--phone-color); }
+
+        /* Stile specifico Computer */
+        .btn-computer:hover {
+            border-color: var(--computer-computer-color, var(--computer-color));
+            box-shadow: 0 20px 40px var(--computer-glow);
+            transform: translateY(-6px);
+        }
+        .btn-computer:hover .icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .btn-computer .btn-text { color: #f1f5f9; }
+        .btn-computer:hover .btn-text { color: var(--computer-color); }
+
+        /* Animazioni di ingresso */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ottimizzazione per schermi piccoli */
+        @media (max-width: 480px) {
+            .container {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .btn-card {
+                padding: 30px 20px;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            .icon {
+                font-size: 2rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Benvenuto</h1>
+        <p>Seleziona il dispositivo che stai utilizzando</p>
+    </div>
+
+    <div class="container">
+        <!-- Bottone Telefono - Sostituisci il link nell'href -->
+        <a href="gioco.html" class="btn-card btn-phone">
+            <span class="icon">📱</span>
+            <span class="btn-text">Sei da telefono</span>
+        </a>
+        
+        <!-- Bottone Computer - Sostituisci il link nell'href -->
+        <a href="gioco1.html" class="btn-card btn-computer">
+            <span class="icon">💻</span>
+            <span class="btn-text">Sei da computer</span>
+        </a>
+    </div>
+
+</body>
+</html>
